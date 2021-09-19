@@ -1,0 +1,26 @@
+            using System.IO;
+            using System.Net;
+            
+            
+            
+            string myStr = String.Format("http://mydomain.com/api/Values/PostData");
+            WebRequest requestObjPost = WebRequest.Create(myStr);
+            //requestObjGet.Credentials = new NetworkCredential("UserName", "Password");
+            requestObjPost.Method = "POST";
+            requestObjPost.ContentType = "application/json";
+
+            string dataInJsonFormate = "{\"text\":\"Hello test 10\"}";
+
+            using (var streamWriter = new StreamWriter(requestObjPost.GetRequestStream()))
+            {
+                streamWriter.Write(dataInJsonFormate);
+                streamWriter.Flush();
+                streamWriter.Close();
+
+                var httpResponse = (HttpWebResponse)requestObjPost.GetResponse();
+
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result2 = streamReader.ReadToEnd();
+                }
+            }
